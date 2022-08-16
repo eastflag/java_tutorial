@@ -25,16 +25,16 @@ public class RecursiveTest {
                 assetTree.add(asset);
             }
         }
+
+        System.out.println(assetTree);
     }
 
     static private List<AssetDTO> getChildren(List<AssetDTO> assetList, Integer parentAssetId) {
         List<AssetDTO> children = assetList.stream().filter(assetDTO -> assetDTO.getParentAssetId() == parentAssetId)
                 .collect(Collectors.toList());
         for (AssetDTO asset : children) {
-            if (asset.getChildren().size() > 0) {
-                asset.setChildren(asset.getChildren());
-            }
-
+            List<AssetDTO> tempChildren =getChildren(assetList, asset.getAssetId());
+            asset.setChildren(tempChildren);
         }
         return children;
     }
